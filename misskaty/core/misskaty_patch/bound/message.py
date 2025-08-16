@@ -15,13 +15,16 @@ from pyrogram.errors import (
     MessageIdInvalid,
     MessageNotModified,
     MessageTooLong,
-    TopicClosed,
-    Forbidden,   # ✅ Import this
+    Forbidden,   # ✅
 )
 
-# Compatibility patch for missing errors
+# Compatibility patches for missing errors
 class ChatSendPlainForbidden(Forbidden):
     """Backwards compatibility: MissKaty expected this error class."""
+    pass
+
+class TopicClosed(Forbidden):
+    """Backwards compatibility: raised when replying to a closed forum topic."""
     pass
 
 from pyrogram.types import Message
