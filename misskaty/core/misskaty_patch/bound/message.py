@@ -8,7 +8,6 @@ from typing import Union
 from pyrogram.errors import (
     ChannelPrivate,
     ChatAdminRequired,
-    ChatSendPlainForbidden,
     ChatWriteForbidden,
     FloodWait,
     MessageAuthorRequired,
@@ -17,7 +16,14 @@ from pyrogram.errors import (
     MessageNotModified,
     MessageTooLong,
     TopicClosed,
+    Forbidden,   # ✅ Import this
 )
+
+# Compatibility patch for missing errors
+class ChatSendPlainForbidden(Forbidden):
+    """Backwards compatibility: MissKaty expected this error class."""
+    pass
+
 from pyrogram.types import Message
 
 LOGGER = getLogger("MissKaty")
