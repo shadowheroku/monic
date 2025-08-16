@@ -23,14 +23,16 @@ def patched_init(self, *args, **kwargs):
         if key in kwargs:
             setattr(self, key, kwargs.pop(key, None))
 
-    # Handle `session_string` → convert to session_name
+    # Handle `session_string` → convert to session_name (only if not already provided)
     if "session_string" in kwargs:
         session_string = kwargs.pop("session_string")
-        # Store it for later use if plugins expect it
         setattr(self, "session_string", session_string)
 
-        # If no session_name provided, use session_string as session_name
-        if "session_name" not in kwargs:
+        # Only inject session_name if neither positional args nor kwargs provided it
+        has_positional_session = len(args) >= 1
+        has_kw_session = "session_name" in kwargs
+
+        if not has_positional_session and not has_kw_session:
             kwargs["session_name"] = session_string
 
     # Finally call the original Pyrogram Client
